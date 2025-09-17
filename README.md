@@ -10,8 +10,8 @@
 ### 🔬 **Advanced Crop Monitoring**
 - **Hyperspectral Image Analysis** - Process drone-captured images using MATLAB's specialized toolbox
 - **Vegetation Indices Calculation** - NDVI, SAVI, EVI, MCARI, and Red Edge Position analysis
-- **Real-time Sensor Integration** - Soil moisture, temperature, humidity, and leaf wetness monitoring
 - **AI-powered Health Assessment** - CNN models for spectral classification and health prediction
+- **Disease analysis model** - Predicts the health of the crop based on the picture uploaded
 
 ### 🤖 **Smart Predictions & Alerts**
 - **Disease & Pest Detection** - Early warning system using LSTM networks
@@ -22,20 +22,12 @@
 ### 🌍 **Geospatial Intelligence**
 - **Interactive Maps** - Leaflet.js-powered field visualization
 - **Risk Zone Mapping** - Visual representation of stress and disease hotspots
-- **Drone Flight Planning** - Optimize data collection routes
 - **GPS-enabled Monitoring** - Location-aware sensor data collection
 
 ### 📊 **User-Friendly Dashboard**
 - **Accessible Design** - Clear icons and intuitive interface for all users
 - **Mobile-First** - Responsive design that works on all devices
-- **Multi-language Support** - Easy-to-understand interface for farmers worldwide
 - **Comprehensive Reports** - PDF/CSV reports with actionable insights
-
-### 🔧 **Digital Twin Simulation**
-- **MATLAB Simulink Models** - Virtual crop growth simulation
-- **Scenario Testing** - Test different management strategies
-- **Climate Impact Analysis** - Assess future climate change effects
-- **Resource Optimization** - Find optimal fertilizer and irrigation schedules
 
 ## 🚀 Quick Start
 
@@ -51,7 +43,6 @@ Before installation, ensure you have:
   - Image Processing Toolbox
   - Deep Learning Toolbox
   - Simulink
-- **Redis** (for background tasks) - [Download here](https://redis.io/)
 
 ### 🛠️ Installation
 
@@ -117,8 +108,6 @@ Before installation, ensure you have:
 #### Getting Started
 1. **Register Your Account** - Create an account and add your farm information
 2. **Add Your Fields** - Draw field boundaries on the map using simple point-and-click
-3. **Connect Sensors** - Follow the visual guide to connect your IoT sensors
-4. **Take Your First Flight** - Use the drone integration guide for hyperspectral imaging
 
 #### Daily Monitoring
 - **Check Dashboard** - View daily crop health summary with easy-to-understand icons
@@ -211,12 +200,6 @@ Content-Type: application/json
 }
 ```
 
-### Sensor Data
-```http
-GET /api/sensors/data/{field_id}?hours=24&sensor_type=soil_moisture
-Authorization: Bearer {jwt-token}
-```
-
 ### Predictions
 ```http
 POST /api/predictions/stress/{field_id}
@@ -238,38 +221,6 @@ Content-Type: application/json
 - **SQL Injection Prevention** - Parameterized queries and ORM usage
 - **CORS Protection** - Configured for secure cross-origin requests
 - **Data Encryption** - Sensitive data encrypted at rest and in transit
-
-## 🔬 Supported Sensors
-
-### Environmental Sensors
-- Soil Moisture (Capacitive/Resistive)
-- Air/Soil Temperature
-- Relative Humidity
-- Leaf Wetness Duration
-- Light Intensity (PAR/Lux)
-- Wind Speed & Direction
-- Rainfall
-- Soil pH & EC
-
-### Image Sensors
-- Hyperspectral Cameras (VNIR/SWIR)
-- RGB Cameras
-- Thermal Cameras
-- LiDAR (Point Cloud)
-
-## 🚁 Drone Integration
-
-### Supported Platforms
-- **DJI** - Phantom, Mavic, Matrice series
-- **Parrot** - ANAFI, Sequoia
-- **senseFly** - eBee series
-- **Custom UAVs** - OpenCV integration
-
-### Flight Planning
-- Automated flight path generation
-- Overlap optimization for mapping
-- Weather-aware scheduling
-- Battery life management
 
 ## 🤖 AI Models
 
@@ -381,38 +332,6 @@ We welcome contributions from the agricultural technology community!
 - **Cost Savings**: $150-300 per hectare annually
 - **Time Savings**: 60% reduction in field scouting time
 
-## 📞 Support
 
-### Community Support
-- **GitHub Issues**: Technical problems and feature requests
-- **Discussions**: Share experiences and best practices
-- **Wiki**: Community-maintained documentation
 
-### Commercial Support
-- **Email**: support@agrimonitor.com
-- **Phone**: +1-555-FARM-AI1 (1-555-327-6241)
-- **Documentation**: https://docs.agrimonitor.com
 
-### Training & Workshops
-- Monthly webinars for new users
-- On-site training for large farms
-- University partnership program
-- Certification courses for technicians
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Agricultural Research Community** - For invaluable domain expertise
-- **Open Source Contributors** - Making advanced technology accessible
-- **Farming Partners** - Testing and feedback throughout development
-- **MathWorks** - MATLAB toolbox support and optimization
-- **PostgreSQL Global Development Group** - Robust geospatial database capabilities
-
----
-
-**Made with ❤️ for sustainable agriculture**
-
-*Empowering farmers worldwide with AI-driven insights for better crop management and environmental stewardship.*
