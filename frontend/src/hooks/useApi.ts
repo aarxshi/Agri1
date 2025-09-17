@@ -29,15 +29,15 @@ function useApiCall<T>(
 
   const fetchData = useCallback(async () => {
     setState(prev => ({ ...prev, loading: true, error: null }));
-    
+
     try {
       const result = await apiCall();
       setState({ data: result, loading: false, error: null });
     } catch (error) {
-      setState({ 
-        data: null, 
-        loading: false, 
-        error: error instanceof Error ? error.message : 'An error occurred' 
+      setState({
+        data: null,
+        loading: false,
+        error: error instanceof Error ? error.message : 'An error occurred'
       });
     }
   }, dependencies);
@@ -88,31 +88,31 @@ export function useSensorTypes(): ApiHook<{ sensor_types: Array<{
 
 // Auto-refresh hook
 export function useAutoRefresh<T>(
-  hook: () => ApiHook<T>,
+  apiHook: ApiHook<T>,
   intervalMs: number = 30000
 ): ApiHook<T> {
-  const apiHook = hook();
-  
   useEffect(() => {
     if (intervalMs <= 0) return;
-    
+
     const interval = setInterval(() => {
       apiHook.refetch();
     }, intervalMs);
-    
+
     return () => clearInterval(interval);
   }, [apiHook.refetch, intervalMs]);
-  
+
   return apiHook;
 }
 
-// Polling hook for real-time data
+// Real-time polling hooks
 export function useRealTimeDashboard(intervalMs: number = 30000): ApiHook<DashboardSummary> {
-  return useAutoRefresh(() => useDashboardSummary(), intervalMs);
+  const apiHook = useDashboardSummary();
+  return useAutoRefresh(apiHook, intervalMs);
 }
 
 export function useRealTimeTrends(fieldId: number = 1, intervalMs: number = 60000): ApiHook<TrendData> {
-  return useAutoRefresh(() => useTrends(fieldId), intervalMs);
+  const apiHook = useTrends(fieldId);
+  return useAutoRefresh(apiHook, intervalMs);
 }
 
 // Authentication hook
@@ -120,7 +120,7 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     !!localStorage.getItem('auth_token')
   );
-  
+
   const login = async (username: string, password: string) => {
     try {
       const response = await apiService.login(username, password);
@@ -132,7 +132,7 @@ export function useAuth() {
       throw error;
     }
   };
-  
+
   const register = async (userData: {
     username: string;
     password: string;
@@ -147,12 +147,12 @@ export function useAuth() {
       throw error;
     }
   };
-  
+
   const logout = () => {
     apiService.clearToken();
     setIsAuthenticated(false);
   };
-  
+
   return {
     isAuthenticated,
     login,
@@ -172,22 +172,22 @@ export function useImageUpload() {
     jobId: null,
     error: null,
   });
-  
+
   const uploadImage = async (file: File, fieldId: number) => {
     setUploadState({ uploading: true, jobId: null, error: null });
-    
+
     try {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('field_id', fieldId.toString());
-      
+
       const response = await apiService.uploadImage(formData);
-      setUploadState({ 
-        uploading: false, 
-        jobId: response.job_id, 
-        error: null 
+      setUploadState({
+        uploading: false,
+        jobId: response.job_id,
+        error: null
       });
-      
+
       return response;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Upload failed';
@@ -195,7 +195,7 @@ export function useImageUpload() {
       throw error;
     }
   };
-  
+
   return {
     ...uploadState,
     uploadImage,
@@ -225,7 +225,7 @@ export function useCropHealthPrediction(fieldId: number, trigger: boolean = fals
   };
 }> & { predict: () => void } {
   const [shouldFetch, setShouldFetch] = useState(trigger);
-  
+
   const apiHook = useApiCall(
     () => {
       if (!shouldFetch) throw new Error('Prediction not triggered');
@@ -233,11 +233,11 @@ export function useCropHealthPrediction(fieldId: number, trigger: boolean = fals
     },
     [fieldId, shouldFetch]
   );
-  
+
   const predict = useCallback(() => {
     setShouldFetch(true);
   }, []);
-  
+
   return {
     ...apiHook,
     predict,
@@ -254,7 +254,7 @@ export function usePestPrediction(fieldId: number, trigger: boolean = false): Ap
   };
 }> & { predict: () => void } {
   const [shouldFetch, setShouldFetch] = useState(trigger);
-  
+
   const apiHook = useApiCall(
     () => {
       if (!shouldFetch) throw new Error('Prediction not triggered');
@@ -262,11 +262,11 @@ export function usePestPrediction(fieldId: number, trigger: boolean = false): Ap
     },
     [fieldId, shouldFetch]
   );
-  
+
   const predict = useCallback(() => {
     setShouldFetch(true);
   }, []);
-  
+
   return {
     ...apiHook,
     predict,

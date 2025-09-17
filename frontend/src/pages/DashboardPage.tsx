@@ -2,6 +2,7 @@ import React from 'react';
 import { useRealTimeDashboard, useRealTimeTrends } from '../hooks/useApi';
 import { FieldMap } from '../components/FieldMap';
 import { TrendsChart } from '../components/TrendsChart';
+import GTranslateLoader from '../components/GTranslateLoader';
 
 export const DashboardPage: React.FC = () => {
   const { data: summary, loading: loadingSummary, error: summaryError } = useRealTimeDashboard(30000);
@@ -25,6 +26,8 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
+      <div className="gtranslate_wrapper"></div>
+      <GTranslateLoader />
       {summaryError && (
         <div className="p-4 rounded-lg bg-red-50 text-red-700">{summaryError}</div>
       )}

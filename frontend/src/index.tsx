@@ -4,9 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+// Ensure the root container exists
+const container = document.getElementById('root');
+if (!container) {
+  throw new Error('Root container missing in HTML. Make sure <div id="root"></div> exists in public/index.html');
+}
+
+const root = ReactDOM.createRoot(container);
+
 root.render(
   <React.StrictMode>
     <App />
